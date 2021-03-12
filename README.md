@@ -19,6 +19,7 @@ Append the dictionary with the image url string and the hemisphere title to a li
 
 In the final exercise, we use MongoDB with Flask templating to create a new HTML page that displays all of the information that was scraped from the URLs above.
 
+The 'Mission to Mars.htm' file contains the html of the final application. 
 
 ## Technologies
  
@@ -32,6 +33,6 @@ Jupyter Notebook, BeautifulSoup, Pandas, and Requests/Splinter, MongoDB, Flask, 
 
 3. Navigate to the web-scraping-challenge folder
 
-4. Open and run the app.py file
+4. Open and run the app.py file under the Mission_to_Mars folder.
 
 5. Click on the 'Scrape New Data' button on the top of the web page.
