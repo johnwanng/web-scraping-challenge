@@ -10,20 +10,70 @@
 </head>
 
 <body>
-  <div class="container-fluid">
-    <div class="jumbotron text-center">
-      <h1>Mission to Mars</h1>
-      <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
+  <div class="container">
+    <div class="row" style="padding-top: 20px;">
+      <div class="col-md-12">
+              <div class="jumbotron text-center">
+                <h1>Mission to Mars</h1>
+                <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
+              </div>
+              <h2 style="font-size: x-large;">Latest Mars News</h2>
+              <h3 style="font-size: medium;">{{ mars.title }}</h3>
+              <h4 style="font-size: small">{{ mars.news }}</h3>
+              <div class="container">
+                  <div class="row">
+                      <div class="col-md-8" style="padding-left:0;">  
+                          <h2 style="font-size: x-large;">Featured Mars Image</h2> 
+                          <img src="{{ mars.featureImageURL }}" alt="Feature Mars Image" align="left" width="750">
+                      </div>
+                      <div class="col-md-4">  
+                        <h2 style="font-size: x-large;">Mars Facts</h2>
+                          {{mars.spacefacts | safe}}
+                      </div> 
+                  </div> 
+              </div>       
+       </div>       
+    </div>        
+  </div>
+
+  <div class="container">
+    <div class="row" style="padding-top: 20px;">
+        <div class="col-md-12 whitebackground">
+            <h2 style="text-align: center; font-size: x-large;">
+                Mars Hemispheres
+            </h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="{{ mars.hempisheres_image_url1 }}"  align="left" width="500">
+                        <h3>
+                          {{mars.hempisheres1}}
+                      </h3>
+                    </div>
+                    <div class="col-md-6">                           
+                        <img src="{{ mars.hempisheres_image_url2 }}" align="left" width="500">
+                        <h3>
+                          {{mars.hempisheres2}}
+                      </h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="{{ mars.hempisheres_image_url3 }}"  align="left" width="500">
+                        <h3>
+                          {{mars.hempisheres3}}
+                        </h3>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="{{ mars.hempisheres_image_url4 }}"  align="left" width="500">
+                        <h3>
+                          {{mars.hempisheres4}}
+                        </h3>
+                    </div>
+                </div>
     </div>
-    <h2>Latest Mars News</h2>
-    <h3>{{ mars.title }}</h3>
-    <h3>{{ mars.news }}</h3>
-    <BR>
-    <h2>Featured mars Image</h2> 
-    <img src="{{ mars.featureImageURL }}" alt="Feature Mars Image">
-    {{mars.spacefacts}}
-  </div>
-  </div>
+ </div>
 </body>
 
 </html>

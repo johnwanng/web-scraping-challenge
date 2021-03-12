@@ -23,8 +23,9 @@ def nasa():
     # Retrieve the latest news Title and Paragraph text
     titleResults = soup.find('div', class_='content_title')
     newsResults = soup.find('div', class_='rollover_description_inner')
-    mars_data.update(title = titleResults.a.text.strip())
-    mars_data.update(news = newsResults.text)
+    nasaDict = {"title" : titleResults.a.text.strip()}
+    nasaDict.update(news = newsResults.text)
+    return nasaDict
 
 
 def jpl():
@@ -40,7 +41,8 @@ def jpl():
     # If the link contains the image then assign it to a variable called featured_image_url.
     if imageResults.img:
         featureImageURL = JPL_URL + imageResults.img["src"]
-        mars_data.update(featureImageURL = featureImageURL)
+        JPLDict = {"featureImageURL" : featureImageURL}
+        return JPLDict
 
 # Use Pandas to scrape the table containing facts about the planet including Diameter, Mass, etc.
 def spacefacts():
@@ -49,8 +51,9 @@ def spacefacts():
     # Use Pandas to convert the data to a HTML table string.
     tables = pd.read_html(marsFactsURL)
     df = tables[0]
-    html = df.to_html()
-    mars_data.update(spacefacts = html)
+    html = df.to_html(index=False,header=False)
+    spaceFactsDict = {"spacefacts" : html}
+    return spaceFactsDict
 
 
 def hempisheres():
@@ -61,10 +64,11 @@ def hempisheres():
         {"title": "Schiaparelli Hemisphere Enhanced", "img_url": ""},
         {"title": "Syrtis Major Hemisphere Enhanced", "img_url": ""},
         {"title": "Valles Marineris Hemisphere Enhanced", "img_url": ""}]
-
+    hempDict = {}
     x = 0
     # Loop through the dictionary
     for i in hemisphere_image_urls:
+        #print(i['title'])
         x = x + 1
         # Visit the main site 
         browser.visit(marsHemispheresURL)
@@ -75,27 +79,31 @@ def hempisheres():
         # Get all li
         imageResults = soup.find_all('li')
         for image in imageResults:
-            # If it is a href and its text is original then use its href link as the image url
+            # If it is a href and its text is Sample then use its href link as the image url
             a = image.find('a')
-            if a.text == 'Original':
-                imageURL = a["href"]
+            if a.text == 'Sample':
+                imageURL = a['href']
                 # Update the img_url 
-                i.update({"img_url":imageURL})
-                mars_data["hempisheres" + str(x)] = i['title'] 
-                mars_data["hempisheres_image_url"+str(x)] = i['img_url']
+                i.update({'img_url':imageURL})
+                #print('after: ' + i['img_url'])
+                hempDict.update({"hempisheres" + str(x) : i['title']})
+                hempDict.update({"hempisheres_image_url" +str(x) : i['img_url']})
+    #print(hempDict)            
+    return hempDict
 
+        
 
 def scrape():
     browser = init_browser()
-    
+
     # Call nasa function to scrape https://mars.nasa.gov/news/ and put the title and news into the mars_data dictionary
-    nasa()
+    mars_data = nasa()
     # Call jpl function to scrape https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/ and put featureImageURL into the mars_data dictionary
-    jpl()
+    mars_data.update(jpl())
     # Call spacefacts to scrape https://space-facts.com/mars/ and populate html table into the mars_data dictionary
-    spacefacts()
+    mars_data.update(spacefacts())
     # Call hempisheres to scrape https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars and populate those hempishere images into the mars_data dictionary
-    hempisheres()
+    mars_data.update(hempisheres())
 
     # Close the browser after scraping
     browser.quit()
@@ -104,5 +112,5 @@ def scrape():
     return mars_data
 
 
-xx = scrape()
-print(xx)
+#xx = scrape()
+#print(xx)
